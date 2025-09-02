@@ -9,554 +9,663 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --page-bg: #bfbfbf; /* grey paper background */
-      --coupon-bg: #ffffff;
-      --maxw: 940px;
-      --radius: 6px;
-      --gutter: 24px;
-      --shadow: 0 6px 18px rgba(0,0,0,0.12);
-      --stripe-width: 42px;
-    }
-
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: var(--page-bg);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      color: #111;
-    }
-
-    .wrap{
-      max-width: var(--maxw);
-      margin: 36px auto;
-      padding: 18px;
-    }
-
-    /* Each coupon card */
-    .coupon{
-      width: 100%;
-      background: var(--coupon-bg);
-      display: flex;
-      align-items: stretch;
-      border-radius: 4px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      margin-bottom: 20px;
-      position: relative;
-      min-height: 230px;
-    }
-
-    /* left curved stripe */
-    .coupon .left-stripe{
-      width: var(--stripe-width);
-      position: relative;
-      flex: 0 0 var(--stripe-width);
-    }
-    .stripe-shape{
-      width: 100%;
-      height: 100%;
-      background: red;
-      clip-path: url(#concave-clip);
-    }
-
-    /* main content area */
-    .coupon .main{
-      flex:1;
-      padding: 20px 22px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      justify-content: center;
-    }
-
-    /* small top row: logo on left, expiry right */
-    .top-row{
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      position: relative;
-    }
-
-    .logo{
-      flex: 0;          
-      font-size: 14px;
-      position: relative;
-      right: 46px;  
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width: 220px;
-    }
-    .logo .mark{
-      width:34px;
-      height:34px;
-      border-radius:50%;
-      background: rgba(255,255,255,0.06);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-shrink:0;
-    }
-    .logo .mark svg{ display:block; width:22px; height:22px; }
-
-    .brand{
-      font-weight:700;
-      letter-spacing:0.2px;
-      font-size:14px;
-    }
-    .brand small{
-      display:block;
-      font-weight:600;
-      font-size:10px;
-      opacity:0.7;
-    }
-
-    .expiry{
-               
-      font-size: 12px; 
-      text-align: right;
-      position: relative;
-          top: -11px;
-    right: 235px;
-    }
-    .expiry .muted{ font-weight:600; color:#111; opacity:0.8; }
-
-    /* big typographic area */
-    .big{
-      display:flex;
-      align-items:flex-start;
-      gap:18px;
-    }
-    .left-text{
-      flex:1;
-    }
-
-    .label{
-      font-size:20px;
-      font-weight:600;
-      margin-bottom:6px;
-    }
-    .coupon-title{
-      font-size:64px;
-      line-height:0.88;
-      font-weight:800;
-      margin:0;
-    }
-
-    .small-text{
-      font-size:12.2px;
-      color:#222;
-      margin-top:10px;
-      max-width:540px;
-      opacity:0.9;
-    }
-
-    /* right block: colored square with 30% OFF and barcode under it */
-    .right-block{
-      width:230px;
-      display:flex;
-      flex-direction:column;
-      align-items:stretch;
-      justify-content:flex-start;
-      padding:0;
-      position: absolute;
-      top: 0;
-      right: 0;
-    }
-
-    .off-box{
-      height:160px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      font-weight:800;
-      font-size:74px;
-      line-height:0.9;
-      color:#fff;
-      padding:8px;
-      box-sizing:border-box;
-    }
-
-    .barcode{
-      height:40px;
-      margin:14px 16px 18px;
-      border-top:1px solid rgba(0,0,0,0.06);
-      display:block;
-      background-image:
-        repeating-linear-gradient(
-          90deg,
-          #000 0px, #000 2px,
-          transparent 2px, transparent 6px
-        );
-      background-size: 8px 100%;
-      background-repeat:repeat-x;
-      background-position:center;
-      border-radius:2px;
-    }
-
-    /* dashed cut line between coupons */
-    .cut {
-      width:100%;
-      height:22px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin-bottom:10px;
-    }
-    .cut .dashed {
-      width:100%;
-      border-top:4px dashed rgba(0,0,0,0.35);
-      opacity:0.45;
-      margin:0 6px;
-    }
-
-    /* color variations */
-    .accent-red .stripe-shape{ background: #d40303; }
-    .accent-red .brand, .accent-red .coupon-title{ color: #d40303; }
-    .accent-red .off-box{ background: #d40303; }
-
-    .accent-navy .stripe-shape{ background: #063db9; }
-    .accent-navy .brand, .accent-navy .coupon-title{ color: #063db9; }
-    .accent-navy .off-box{ background: #063db9; }
-
-    .accent-green .stripe-shape{ background: #056638; }
-    .accent-green .brand, .accent-green .coupon-title{ color: #056638; }
-    .accent-green .off-box{ background: #056638; }
-
-    .accent-LightBlue .stripe-shape{ background: #03aae1; }
-    .accent-LightBlue .brand, .accent-LightBlue .coupon-title{ color: #03aae1; }
-    .accent-LightBlue .off-box{ background: #03aae1; }
-
-    .label.discount{
-      font-size:20px;
-      font-weight:700;
-      color:#111;
-    }
-
-    .fine{
-      font-size:11px;
-      color:#222;
-      opacity:0.85;
-      margin-top:6px;
-    }
-
-    .copyright {
-      font-size:11px;
-      color:#222;
-      opacity:0.7;
-      margin-top:4px;
-      text-align:right;
-    }
-
-    /* responsive */
-/* Responsive Adjustments */
-
-/* Tablet: stack better */
-@media (max-width: 980px) {
-  .coupon {
-    flex-direction: column;
-    min-height: auto;
-  }
-
-  .right-block {
-    position: relative;
-    width: 100%;
-    margin-top: 16px;
-  }
-
-  .off-box {
-    height: 120px;
-    font-size: 46px;
-  }
-
-  .main {
-    padding: 18px;
-  }
-
-  .logo {
-    min-width: auto;
-    right: 0; /* remove fixed offset */
-  }
-
-  .expiry {
-    position: static; /* let flexbox handle placement */
-    margin-left: auto;
-    margin-top: 2px;
-    text-align: right;
-  }
-
-  .big {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .coupon-title {
-    font-size: 48px;
-  }
+  * { box-sizing: border-box; }
+:root{
+  --page-bg: #bfbfbf; /* grey paper background */
+  --coupon-bg: #ffffff;
+  --maxw: 97vw;
+  --radius: 6px;
+  --gutter: 24px;
+  --shadow: 0 6px 18px rgba(0,0,0,0.12);
+  --stripe-width: 42px;
 }
-
-/* Mobile: tighter scaling */
-@media (max-width: 560px) {
-  .expiry {
-    margin-top: -2px;
-  }
-
-  .coupon-title {
-    font-size: 36px;
-  }
-
-  .off-box {
-    font-size: 32px;
-    height: 100px;
-  }
-
-  .small-text,
-  .fine {
-    font-size: 11px;
-  }
-
-  .label.discount {
-    font-size: 16px;
-  }
+html,body{
+  height:100%;
+  margin:0;
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--page-bg);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  color: #111;
 }
-    .brand {
-  color: black !important;
+.wrap{
+  display: grid;
+  grid-template-columns:repeat(auto-fit, minmax(445px, 1fr));
+  gap: 20px;
+  max-width: var(--maxw);
+  margin: 36px;
+  padding: 18px;
 }
-.brand-logo {
-  width: auto;
-  height: auto;
-  max-width: 80px;   /* adjust size */
-  max-height: 40px;  /* adjust size */
-  display: block;
-}
-.img {
-  left: 107px;
-  max-width: 150px;   /* default size for desktops */
+/* Each coupon card */
+.coupon{
+  max-width: 445px;
+  min-width: 0;
+  background: var(--coupon-bg);
+  display: flex;
+  align-items: stretch;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 20px;
   position: relative;
-         /* your current offset */
+  min-height: 214px;
+}
+/* left curved stripe */
+.coupon .left-stripe{
+  width: var(--stripe-width);
+  position: relative;
+  flex: 0 0 var(--stripe-width);
+}
+.stripe-shape{
+  width: 74%;
+  height: 100%;
+  background: red;
+  clip-path: url(#concave-clip);
+}
+/* main content area */
+.coupon .main{
+  flex:1;
+  padding: 20px 22px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  justify-content: center;
+}
+/* small top row: logo on left, expiry right */
+.top-row{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+}
+.logo{
+  flex: 0;
+  font-size: 14px;
+  position: relative;
+  right: 46px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width: 220px;
+}
+.logo .img{
+  max-width: 145px;
+  position: relative;
+  top: 1px;    /* fixed from '1 px' */
+  left: 20px;
+  background: rgba(255,255,255,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.logo .img{ display:block; }
+.brand{
+  font-weight:700;
+  letter-spacing:0.2px;
+  font-size:14px;
+}
+.brand .small{
+  display:block;
+  font-weight:600;
+  font-size:10px;
+  opacity:0.7;
+}
+.expiry{
+  display: block;
+  text-align: right;
+  width: 164px;
+  text-align: right;
+  position: relative;
+  top: -22px;
+  right: 159px;
+}
+.expiry .muted{ font-weight:600; color:#111; opacity:0.8; }
+/* big typographic area */
+.big{
+  display:flex;
+  align-items:flex-start;
+  gap:18px;
+}
+.left-text{
+  flex:1;
+  position: relative;
+  left: -27px;
+}
+.label{
+  font-size:20px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+.coupon-title{
+  font-size:20px;
+  line-height:0.88;
+  font-weight:700;
+  margin:0;
+}
+.small-text{
+  font-size:12.2px;
+  color:#222;
+  margin-top:10px;
+  max-width:540px;
+  opacity:0.9;
+}
+/* right block: colored square with 30% OFF and barcode under it */
+.right-block{
+  width:147px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:flex-start;
+  padding:0;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.off-box{
+  height: 152px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 800;
+  font-size: 53px;
+  line-height: 0.9;
+  color: #fff;
+  padding: 8px;
+  box-sizing: border-box;
+}
+.barcode{
+  height: 21px;
+  margin: 14px 31px 18px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: block;
+  background-image: repeating-linear-gradient(90deg, #000 -1px, #000 1px, transparent 2px, transparent 9px);
+  background-size: 8px 100%;
+  background-repeat: repeat-x;
+  background-position: center;
+  border-radius: 2px;
 }
 
-/* 📱 On smaller screens, shrink & reposition */
-@media (max-width: 768px) {
-  .img {
-    max-width: 100px;  /* scale down */
-    left: -10px;        /* move closer */
+/* dashed cut line between coupons */
+.cut {
+  width:100%;
+  height:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:10px;
+}
+.cut .dashed {
+  width: 100%;
+  border-top: 4px dashed rgba(0, 0, 0, 0.35);
+  opacity: 0.45;
+  margin: 11px 6px;
+}
+/* color variations */
+.accent-red .stripe-shape{ background: #d40303; }
+.accent-red .brand, .accent-red .coupon-title{ color: #d40303; }
+.accent-red .off-box{ background: #d40303; }
+.accent-navy .stripe-shape{ background: #063db9; }
+.accent-navy .brand, .accent-navy .coupon-title{ color: #063db9; }
+.accent-navy .off-box{ background: #063db9; }
+.accent-green .stripe-shape{ background: #056638; }
+.accent-green .brand, .accent-green .coupon-title{ color: #056638; }
+.accent-green .off-box{ background: #056638; }
+.accent-LightBlue .stripe-shape{ background: #03aae1; }
+.accent-LightBlue .brand, .accent-LightBlue .coupon-title{ color: #03aae1; }
+.accent-LightBlue .off-box{ background: #03aae1; }
+.accent-hospital-colour .stripe-shape{ background: #d40303; }
+.accent-hospital-colour .brand, .accent-hospital-colour .coupon-title{ color: #03aae1; }
+.accent-hospital-colour .off-box{ background: #d40303; }
+.label.discount{
+  font-size:18px;
+  font-weight:700;
+  color:#111;
+}
+.fine{
+  display: block;
+  max-width: 261px;
+  font-size:11px;
+  color:#222;
+  opacity:0.85;
+  margin-top:6px;
+}
+.copyright {
+  font-size:8px;
+  color:#222;
+  opacity:0.7;
+  margin-top:4px;
+  text-align:right;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1450px) {
+body{
+display: flex;
+justify-content: center;
+  }
+  .wrap{
+    position: absolute;
   }
 }
+/* Use only gap for vertical spacing in the grid */
+.wrap > .coupon { margin-right: 0; }            /* or .coupon { margin: 0; } */
 
-@media (max-width: 480px) {
-  .img {
-    max-width: 100px;   /* even smaller */
-    left: -10px;        /* tighter positioning */
-  }
-}
+/* Optional: trim container’s bottom space after last row */
+.wrap { margin-right: 0; }                      /* keep top/left/right as needed */
 
-
+  
   </style>
+
 </head>
 <body>
   <div class="wrap">
 
     <!-- ---------- Coupon 1 (Red) ---------- -->
-    <section class="coupon accent-red" aria-label="Red coupon">
-      <div class="left-stripe">
-        <div class="stripe-shape"></div>
-      </div>
+    <section class="coupon accent-red" aria-label="Health Checkup Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
 
       <div class="main">
         <div class="top-row">
           <div class="logo">
             <div class="mark">
-              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,6) scale(0.8)">
-                  <path d="M26 6 C37 6 46 15 46 26 C46 37 37 46 26 46 C15 46 6 37 6 26" stroke="#fff" />
-                  <circle cx="40" cy="24" r="4" fill="#fff" stroke="none" />
-                </g>
-              </svg>
-            </div>
-            <div>
-                <div class="logo">
-    <div class="mark">
-       <img src="images/mah-logo-min.png" alt="Brand Logo" "=""class="img" >
-    </div>
-  </div>
+              <img src="images/mah-logo-min.png" alt="Maharaja Indrasen Hospital Logo" class="img">
             </div>
           </div>
+
           <div class="expiry">
-            <div style="font-size:13px">Expiry Date: <span class="muted">December 20, 2094</span></div>
-            <div class="copyright">© Highfile.com</div>
+            <div style="font-size:11px"><span class="muted">Expiry Date:</span> March 31, 2025</div>
+            <div class="copyright">© Maharaja Indrasen Hospital</div>
           </div>
         </div>
 
         <div class="big">
           <div class="left-text">
-            <div class="label discount">Discount</div>
-            <h1 class="coupon-title">Coupon</h1>
+            <div class="label discount">Health Package</div>
+            <h1 class="coupon-title">Full Body Checkup</h1>
             <div class="small-text fine">
-              Present this coupon at any branch or use the code <strong>IN20</strong> online. Valid for one-time use on Insight Innovator.
+              Get a complete health checkup including blood test, ECG, liver & kidney function tests. 
+              Use the code <strong>HEALTH25</strong> at reception or online booking.
             </div>
           </div>
 
           <div class="right-block">
-            <div class="off-box">30%<br>OFF</div>
+            <div class="off-box">25%<br>OFF</div>
             <div class="barcode"></div>
           </div>
         </div>
       </div>
     </section>
+     <section class="coupon accent-red" aria-label="Health Checkup Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
 
-    <div class="cut"><div class="dashed"></div></div>
+      <div class="main">
+        <div class="top-row">
+          <div class="logo">
+            <div class="mark">
+              <img src="images/mah-logo-min.png" alt="Maharaja Indrasen Hospital Logo" class="img">
+            </div>
+          </div>
+
+          <div class="expiry">
+            <div style="font-size:11px"><span class="muted">Expiry Date:</span> March 31, 2025</div>
+            <div class="copyright">© Maharaja Indrasen Hospital</div>
+          </div>
+        </div>
+
+        <div class="big">
+          <div class="left-text">
+            <div class="label discount">Health Package</div>
+            <h1 class="coupon-title">Full Body Checkup</h1>
+            <div class="small-text fine">
+              Get a complete health checkup including blood test, ECG, liver & kidney function tests. 
+              Use the code <strong>HEALTH25</strong> at reception or online booking.
+            </div>
+          </div>
+
+          <div class="right-block">
+            <div class="off-box">25%<br>OFF</div>
+            <div class="barcode"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+     <section class="coupon accent-red" aria-label="Health Checkup Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
+
+      <div class="main">
+        <div class="top-row">
+          <div class="logo">
+            <div class="mark">
+              <img src="images/mah-logo-min.png" alt="Maharaja Indrasen Hospital Logo" class="img">
+            </div>
+          </div>
+
+          <div class="expiry">
+            <div style="font-size:11px"><span class="muted">Expiry Date:</span> March 31, 2025</div>
+            <div class="copyright">© Maharaja Indrasen Hospital</div>
+          </div>
+        </div>
+
+        <div class="big">
+          <div class="left-text">
+            <div class="label discount">Health Package</div>
+            <h1 class="coupon-title">Full Body Checkup</h1>
+            <div class="small-text fine">
+              Get a complete health checkup including blood test, ECG, liver & kidney function tests. 
+              Use the code <strong>HEALTH25</strong> at reception or online booking.
+            </div>
+          </div>
+
+          <div class="right-block">
+            <div class="off-box">25%<br>OFF</div>
+            <div class="barcode"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ---------- Coupon 2 (Navy) ---------- -->
-    <section class="coupon accent-navy" aria-label="Navy coupon">
-      <div class="left-stripe">
-        <div class="stripe-shape"></div>
-      </div>
+    <section class="coupon accent-navy" aria-label="Dental Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
 
       <div class="main">
         <div class="top-row">
           <div class="logo">
-            <div class="mark">
-              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke="#0b3b65" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,6) scale(0.8)">
-                  <path d="M26 6 C37 6 46 15 46 26 C46 37 37 46 26 46 C15 46 6 37 6 26" stroke="#0b3b65" />
-                  <circle cx="40" cy="24" r="4" fill="#0b3b65" stroke="none" />
-                </g>
-              </svg>
-            </div>
-            <div>
-                <div class="logo">
-    <div class="mark">
-    <img src="images/mah-logo-min.png" alt="Brand Logo" "="" class="img">
-    </div>
-  </div>
-            </div>
+            <img src="images/mah-logo-min.png" alt="Hospital Logo" class="img">
           </div>
-          <div class="expiry">
-            <div style="font-size:13px">Expiry Date: <span class="muted">December 20, 2094</span></div>
-            <div class="copyright">© Highfile.com</div>
-          </div>
+                <div class="expiry">
+          <div style="font-size:11px"><span class="muted">Expiry Date:</span> April 15, 2025</div>
+        <div class="copyright">© Maharaja Indrasen Hospital</div>
+      </div>
         </div>
 
         <div class="big">
           <div class="left-text">
-            <div class="label discount">Discount</div>
-            <h1 class="coupon-title">Coupon</h1>
+            <div class="label discount">Dental Care</div>
+            <h1 class="coupon-title">Free Dental Consultation</h1>
             <div class="small-text fine">
-              Present this coupon at any branch or use the code <strong>IN20</strong> online. Valid for one-time use on Insight Innovator.
+              Get one-time <strong>free consultation</strong> with our dental specialists. 
+              Use coupon code <strong>SMILEFREE</strong> when booking.
             </div>
           </div>
 
           <div class="right-block">
-            <div class="off-box">30%<br>OFF</div>
+            <div class="off-box">100%<br>off</div>
+            <div class="barcode"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="coupon accent-navy" aria-label="Dental Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
+
+      <div class="main">
+        <div class="top-row">
+          <div class="logo">
+            <img src="images/mah-logo-min.png" alt="Hospital Logo" class="img">
+          </div>
+                <div class="expiry">
+        <div style="font-size:11px"><span class="muted">Expiry Date:</span> April 15, 2025</div>
+        <div class="copyright">© Maharaja Indrasen Hospital</div>
+      </div>
+        </div>
+
+        <div class="big">
+          <div class="left-text">
+            <div class="label discount">Dental Care</div>
+            <h1 class="coupon-title">Free Dental Consultation</h1>
+            <div class="small-text fine">
+              Get one-time <strong>free consultation</strong> with our dental specialists. 
+              Use coupon code <strong>SMILEFREE</strong> when booking.
+            </div>
+          </div>
+
+          <div class="right-block">
+            <div class="off-box">100%<br>off</div>
+            <div class="barcode"></div>
+          </div>
+        </div>
+      </div>
+    </section><section class="coupon accent-navy" aria-label="Dental Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
+
+      <div class="main">
+        <div class="top-row">
+          <div class="logo">
+            <img src="images/mah-logo-min.png" alt="Hospital Logo" class="img">
+          </div>
+                <div class="expiry">
+        <div style="font-size:11px"><span class="muted">Expiry Date:</span> April 15, 2025</div>
+        <div class="copyright">© Maharaja Indrasen Hospital</div>
+      </div>
+        </div>
+
+        <div class="big">
+          <div class="left-text">
+            <div class="label discount">Dental Care</div>
+            <h1 class="coupon-title">Free Dental Consultation</h1>
+            <div class="small-text fine">
+              Get one-time <strong>free consultation</strong> with our dental specialists. 
+              Use coupon code <strong>SMILEFREE</strong> when booking.
+            </div>
+          </div>
+
+          <div class="right-block">
+            <div class="off-box">100%<br>off</div>
             <div class="barcode"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="cut"><div class="dashed"></div></div>
-
-    <!-- ---------- Coupon 3 (green) ---------- -->
-    <section class="coupon accent-green" aria-label="green coupon">
-      <div class="left-stripe">
-        <div class="stripe-shape"></div>
-      </div>
+    <!-- ---------- Coupon 3 (Green) ---------- -->
+    <section class="coupon accent-green" aria-label="Vaccination Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
 
       <div class="main">
         <div class="top-row">
           <div class="logo">
             <div class="mark">
-              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke="#056638" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,6) scale(0.8)">
-                  <path d="M26 6 C37 6 46 15 46 26 C46 37 37 46 26 46 C15 46 6 37 6 26" stroke="#056638" />
-                  <circle cx="40" cy="24" r="4" fill="#056638" stroke="none" />
-                </g>
-              </svg>
-            </div>
-            <div>
-                <div class="logo">
-    <div class="mark">
-     <img src="images/mah-logo-min.png" alt="Brand Logo" class="img">
-    </div>
-  </div>
+              <img src="images/mah-logo-min.png" alt="Hospital Logo" class="img">
             </div>
           </div>
-          <div class="expiry">
-            <div style="font-size:13px">Expiry Date: <span class="muted">December 20, 2094</span></div>
-            <div class="copyright">© Highfile.com</div>
-          </div>
+                <div class="expiry">
+        <div style="font-size:11px"><span class="muted">Expiry Date:</span> April 15, 2025</div>
+        <div class="copyright">© Maharaja Indrasen Hospital</div>
+      </div>
         </div>
 
         <div class="big">
           <div class="left-text">
-            <div class="label discount">Discount</div>
-            <h1 class="coupon-title">Coupon</h1>
+            <div class="label discount">Vaccination</div>
+            <h1 class="coupon-title">Child Immunization</h1>
             <div class="small-text fine">
-              Present this coupon at any branch or use the code <strong>IN20</strong> online. Valid for one-time use on Insight Innovator.
+              Avail <strong>20% discount</strong> on all child vaccination packages. 
+              Show this coupon or use code <strong>IMMUNE20</strong>.
             </div>
           </div>
 
           <div class="right-block">
-            <div class="off-box">30%<br>OFF</div>
+            <div class="off-box">20%<br>OFF</div>
             <div class="barcode"></div>
           </div>
         </div>
       </div>
     </section>
-  
- <!-- 4th coupon-->
-     <section class="coupon accent-LightBlue" aria-label="LightBlue coupon">
-      <div class="left-stripe">
-        <div class="stripe-shape"></div>
-      </div>
+    <section class="coupon accent-green" aria-label="Vaccination Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
 
       <div class="main">
         <div class="top-row">
           <div class="logo">
             <div class="mark">
-              <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <g fill="none" stroke="#056638" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="translate(6,6) scale(0.8)">
-                  <path d="M26 6 C37 6 46 15 46 26 C46 37 37 46 26 46 C15 46 6 37 6 26" stroke="#056638" />
-                  <circle cx="40" cy="24" r="4" fill="#056638" stroke="none" />
-                </g>
-              </svg>
-            </div>
-            <div>
-                <div class="logo">
-    <div class="mark">
-      <img src="images/mah-logo-min.png" alt="Brand Logo" "="" class="img">
-    </div>
-  </div>
+              <img src="images/mah-logo-min.png" alt="Hospital Logo" class="img">
             </div>
           </div>
-          <div class="expiry">
-            <div style="font-size:13px">Expiry Date: <span class="muted">December 20, 2094</span></div>
-            <div class="copyright">© Highfile.com</div>
-          </div>
+                <div class="expiry">
+        <div style="font-size:11px"><span class="muted">Expiry Date:</span> April 15, 2025</div>
+        <div class="copyright">© Maharaja Indrasen Hospital</div>
+      </div>
         </div>
 
         <div class="big">
           <div class="left-text">
-            <div class="label discount">Discount</div>
-            <h1 class="coupon-title">Coupon</h1>
+            <div class="label discount">Vaccination</div>
+            <h1 class="coupon-title">Child Immunization</h1>
             <div class="small-text fine">
-              Present this coupon at any branch or use the code <strong>IN20</strong> online. Valid for one-time use on Insight Innovator.
+              Avail <strong>20% discount</strong> on all child vaccination packages. 
+              Show this coupon or use code <strong>IMMUNE20</strong>.
             </div>
           </div>
 
           <div class="right-block">
-            <div class="off-box">30%<br>OFF</div>
+            <div class="off-box">20%<br>OFF</div>
             <div class="barcode"></div>
           </div>
         </div>
       </div>
     </section>
-  </div>
+<section class="coupon accent-green" aria-label="Vaccination Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
+
+      <div class="main">
+        <div class="top-row">
+          <div class="logo">
+            <div class="mark">
+              <img src="images/mah-logo-min.png" alt="Hospital Logo" class="img">
+            </div>
+          </div>
+                <div class="expiry">
+        <div style="font-size:11px"><span class="muted">Expiry Date:</span> April 15, 2025</div>
+        <div class="copyright">© Maharaja Indrasen Hospital</div>
+      </div>
+        </div>
+
+        <div class="big">
+          <div class="left-text">
+            <div class="label discount">Vaccination</div>
+            <h1 class="coupon-title">Child Immunization</h1>
+            <div class="small-text fine">
+              Avail <strong>20% discount</strong> on all child vaccination packages. 
+              Show this coupon or use code <strong>IMMUNE20</strong>.
+            </div>
+          </div>
+
+          <div class="right-block">
+            <div class="off-box">20%<br>OFF</div>
+            <div class="barcode"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ---------- Coupon 4 (Light Blue) ---------- -->
+    <section class="coupon accent-LightBlue" aria-label="Maternity Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
+
+      <div class="main">
+        <div class="top-row">
+          <div class="logo">
+            <div class="mark">
+              <img src="images/mah-logo-min.png" alt="Hospital Logo" class="img">
+            </div>
+          </div>
+                <div class="expiry">
+        <div style="font-size:11px"><span class="muted">Expiry Date:</span> April 15, 2025</div>
+        <div class="copyright">© Maharaja Indrasen Hospital</div>
+      </div>
+        </div>
+
+        <div class="big">
+          <div class="left-text">
+            <div class="label discount">Maternity Care</div>
+            <h1 class="coupon-title">Free Ultrasound</h1>
+            <div class="small-text fine">
+              Pregnant mothers can avail one <strong>free ultrasound scan</strong>. 
+              Applicable on weekdays only. Use code <strong>MOMSCAN</strong>.
+            </div>
+          </div>
+
+          <div class="right-block">
+            <div class="off-box">100%<br>off</div>
+            <div class="barcode"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="coupon accent-LightBlue" aria-label="Maternity Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
+
+      <div class="main">
+        <div class="top-row">
+          <div class="logo">
+            <div class="mark">
+              <img src="images/mah-logo-min.png" alt="Hospital Logo" class="img">
+            </div>
+          </div>
+               <div class="expiry">
+        <div style="font-size:11px"><span class="muted">Expiry Date:</span> April 15, 2025</div>
+        <div class="copyright">© Maharaja Indrasen Hospital</div>
+      </div>
+        </div>
+
+        <div class="big">
+          <div class="left-text">
+            <div class="label discount">Maternity Care</div>
+            <h1 class="coupon-title">Free Ultrasound</h1>
+            <div class="small-text fine">
+              Pregnant mothers can avail one <strong>free ultrasound scan</strong>. 
+              Applicable on weekdays only. Use code <strong>MOMSCAN</strong>.
+            </div>
+          </div>
+
+          <div class="right-block">
+            <div class="off-box">100%<br>off</div>
+            <div class="barcode"></div>
+          </div>
+        </div>
+      </div>
+    </section><section class="coupon accent-LightBlue" aria-label="Maternity Coupon">
+      <div class="left-stripe"><div class="stripe-shape"></div></div>
+
+      <div class="main">
+        <div class="top-row">
+          <div class="logo">
+            <div class="mark">
+              <img src="images/mah-logo-min.png" alt="Hospital Logo" class="img">
+            </div>
+          </div>
+                <div class="expiry">
+        <div style="font-size:11px"><span class="muted">Expiry Date:</span> April 15, 2025</div>
+        <div class="copyright">© Maharaja Indrasen Hospital</div>
+      </div>
+        </div>
+
+        <div class="big">
+          <div class="left-text">
+            <div class="label discount">Maternity Care</div>
+            <h1 class="coupon-title">Free Ultrasound</h1>
+            <div class="small-text fine">
+              Pregnant mothers can avail one <strong>free ultrasound scan</strong>. 
+              Applicable on weekdays only. Use code <strong>MOMSCAN</strong>.
+            </div>
+          </div>
+
+          <div class="right-block">
+            <div class="off-box">100%<br>off</div>
+            <div class="barcode"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+       <!-- ---------- Coupon 4 (hospital-colour) ---------- -->
+
+   
+
   <!-- concave clipPath definition -->
   <svg width="0" height="0" style="position:absolute">
     <defs>
@@ -565,6 +674,7 @@
       </clipPath>
     </defs>
   </svg>
-  </div>
+</body>
+
 </body>
 </html>
